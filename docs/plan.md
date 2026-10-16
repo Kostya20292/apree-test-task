@@ -2,7 +2,7 @@
 
 Опирается на `requirements.md` и `decisions.md`. Сначала клиент, бэкенд в конце.
 
-Пока сервера нет, `tasksApi` работает через локальную заглушку с тем же контрактом и хранит задачи в `localStorage`, чтобы экран можно было проверить вместе с перезагрузкой. Заглушка включена, пока `VITE_USE_MOCK` не равен `false`. Когда API готово, клиент переключается на `fetch` без изменения экрана, а заглушка удаляется.
+Клиент ходит в API через `fetch`.
 
 Общее для обеих частей:
 
@@ -25,23 +25,22 @@
 client/src/main.tsx
 client/src/App.tsx
 client/src/theme.ts
-client/src/types.ts
+client/src/types/index.ts
 client/src/api/tasksApi.ts
-client/src/api/mockTasksApi.ts
-client/src/board/Board.tsx
-client/src/board/Column.tsx
-client/src/board/TaskCard.tsx
-client/src/board/TaskDialog.tsx
-client/src/board/DeleteDialog.tsx
-client/src/board/PriorityFilter.tsx
-client/src/board/columns.ts
+client/src/constants.ts
+client/src/components/Board/Board.tsx
+client/src/components/Column/Column.tsx
+client/src/components/TaskCard/TaskCard.tsx
+client/src/components/TaskDialog/TaskDialog.tsx
+client/src/components/DeleteDialog/DeleteDialog.tsx
+client/src/components/PriorityFilter/PriorityFilter.tsx
 ```
 
 Отдельного хранилища нет: список, загрузка, ошибка, фильтр и открытый диалог лежат в `Board`.
 
-`tasksApi.ts` — функции `getTasks`, `createTask`, `updateTask`, `deleteTask`. Пока заглушка включена, их выполняет `mockTasksApi.ts`. В режиме API тот же модуль ходит в `/api` через `fetch`. Ошибка сети и ответ не 2xx превращаются в исключение с текстом для экрана.
+`tasksApi.ts` — функции `getTasks`, `createTask`, `updateTask`, `deleteTask`. Модуль ходит в `/api` через `fetch`. Ошибка сети и ответ не 2xx превращаются в исключение с текстом для экрана.
 
-`columns.ts` хранит три колонки и подписи: `new` — «Новая», `in_progress` — «В работе», `done` — «Готово». Там же соседние переходы для кнопок:
+`constants.ts` хранит три колонки и подписи: `new` — «Новая», `in_progress` — «В работе», `done` — «Готово». Там же соседние переходы для кнопок:
 
 | Откуда   | Кнопки                 |
 | -------- | ---------------------- |
@@ -183,7 +182,7 @@ HTTP-проверки через Supertest идут в PostgreSQL из Docker. �
 6. `GET` на пустой таблице — 200 и `[]`.
 7. `GET` и `DELETE` неизвестного UUID — 404.
 
-Готово, когда `pnpm test` проходит на поднятой базе, а клиент с `VITE_USE_MOCK=false` ходит в этот API.
+Готово, когда `pnpm test` проходит на поднятой базе, а клиент ходит в этот API.
 
 ## 5. Сдача
 

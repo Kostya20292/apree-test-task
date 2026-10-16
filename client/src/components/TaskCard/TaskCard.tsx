@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { COLUMN_LABEL, STATUS_TRANSITIONS } from '../columns';
+import { COLUMN_LABEL, STATUS_TRANSITIONS } from '../../constants';
 import { PRIORITY_LABEL } from '../../types';
 import type { TaskCardPreviewProps, TaskCardProps, TaskPriorityProps } from './types';
 

@@ -1,4 +1,4 @@
-import type { TaskFieldValues } from '../../validateTask';
+import type { TaskFieldValues } from '../../utils/validateTask';
 import type { Task } from '../../types';
 
 export type TaskDialogProps = {

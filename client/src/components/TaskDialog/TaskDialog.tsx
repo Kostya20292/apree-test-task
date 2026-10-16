@@ -22,7 +22,7 @@ import {
   TITLE_MAX_LENGTH,
   normalizeTaskFields,
   type TaskFieldErrors,
-} from '../../validateTask';
+} from '../../utils/validateTask';
 import type { TaskDialogProps } from './types';
 
 export const TaskDialog = ({
@@ -139,9 +139,7 @@ export const TaskDialog = ({
           id={formId}
           noValidate
           autoComplete="off"
-          onSubmit={(event) => {
-            void handleSubmit(event);
-          }}
+          onSubmit={handleSubmit}
           sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 0.5 }}
         >
           <TextField

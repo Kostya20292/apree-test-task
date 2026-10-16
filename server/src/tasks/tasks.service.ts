@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma, Priority, Status, type Task } from "../generated/prisma/client";
-import { PrismaService } from "../prisma/prisma.service";
-import { DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from "./dto/create-task.dto";
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, Priority, Status, type Task } from '../generated/prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from './dto/create-task.dto';
 
 type CreateTaskInput = {
   title: unknown;
@@ -23,14 +23,14 @@ const isStatus = (value: unknown): value is Status =>
   value === Status.new || value === Status.in_progress || value === Status.done;
 
 const parseTitle = (value: unknown) => {
-  if (typeof value !== "string") {
-    throw new BadRequestException("Укажите название");
+  if (typeof value !== 'string') {
+    throw new BadRequestException('Укажите название');
   }
 
   const title = value.trim();
 
   if (!title) {
-    throw new BadRequestException("Укажите название");
+    throw new BadRequestException('Укажите название');
   }
 
   if (title.length > TITLE_MAX_LENGTH) {
@@ -41,20 +41,18 @@ const parseTitle = (value: unknown) => {
 };
 
 const parseDescription = (value: unknown) => {
-  if (typeof value !== "string") {
-    throw new BadRequestException("Укажите описание");
+  if (typeof value !== 'string') {
+    throw new BadRequestException('Укажите описание');
   }
 
   const description = value.trim();
 
   if (!description) {
-    throw new BadRequestException("Укажите описание");
+    throw new BadRequestException('Укажите описание');
   }
 
   if (description.length > DESCRIPTION_MAX_LENGTH) {
-    throw new BadRequestException(
-      `Описание не длиннее ${DESCRIPTION_MAX_LENGTH} символов`,
-    );
+    throw new BadRequestException(`Описание не длиннее ${DESCRIPTION_MAX_LENGTH} символов`);
   }
 
   return description;
@@ -62,7 +60,7 @@ const parseDescription = (value: unknown) => {
 
 const parsePriority = (value: unknown) => {
   if (!isPriority(value)) {
-    throw new BadRequestException("Выберите приоритет");
+    throw new BadRequestException('Выберите приоритет');
   }
 
   return value;
@@ -70,7 +68,7 @@ const parsePriority = (value: unknown) => {
 
 const parseStatus = (value: unknown) => {
   if (!isStatus(value)) {
-    throw new BadRequestException("Некорректный статус");
+    throw new BadRequestException('Некорректный статус');
   }
 
   return value;
@@ -82,7 +80,7 @@ export class TasksService {
 
   findAll(): Promise<Task[]> {
     return this.prisma.task.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
@@ -90,7 +88,7 @@ export class TasksService {
     const task = await this.prisma.task.findUnique({ where: { id } });
 
     if (!task) {
-      throw new NotFoundException("Задача не найдена");
+      throw new NotFoundException('Задача не найдена');
     }
 
     return task;
@@ -99,8 +97,7 @@ export class TasksService {
   async create(input: CreateTaskInput): Promise<Task> {
     const title = parseTitle(input.title);
     const description = parseDescription(input.description);
-    const priority =
-      input.priority === undefined ? Priority.medium : parsePriority(input.priority);
+    const priority = input.priority === undefined ? Priority.medium : parsePriority(input.priority);
 
     return this.prisma.task.create({
       data: {
@@ -132,13 +129,13 @@ export class TasksService {
     }
 
     if (Object.keys(data).length === 0) {
-      throw new BadRequestException("Нет полей для изменения");
+      throw new BadRequestException('Нет полей для изменения');
     }
 
     const existing = await this.prisma.task.findUnique({ where: { id } });
 
     if (!existing) {
-      throw new NotFoundException("Задача не найдена");
+      throw new NotFoundException('Задача не найдена');
     }
 
     return this.prisma.task.update({
@@ -151,7 +148,7 @@ export class TasksService {
     const existing = await this.prisma.task.findUnique({ where: { id } });
 
     if (!existing) {
-      throw new NotFoundException("Задача не найдена");
+      throw new NotFoundException('Задача не найдена');
     }
 
     await this.prisma.task.delete({ where: { id } });

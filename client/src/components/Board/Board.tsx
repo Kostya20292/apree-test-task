@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -20,10 +20,10 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { createTask, deleteTask, getErrorMessage, getTasks, updateTask } from '../../api/tasksApi';
-import { sortTasksByCreatedAtDesc } from '../../taskOrder';
-import type { PriorityFilterValue, Status, Task } from '../../types';
-import type { TaskFieldValues } from '../../validateTask';
-import { COLUMNS, COLUMN_LABEL, isStatus } from '../columns';
+import { sortTasksByCreatedAtDesc } from '../../utils/taskOrder';
+import { isStatus, type PriorityFilterValue, type Status, type Task } from '../../types';
+import type { TaskFieldValues } from '../../utils/validateTask';
+import { COLUMNS, COLUMN_LABEL } from '../../constants';
 import { Column } from '../Column/Column';
 import { DeleteDialog } from '../DeleteDialog/DeleteDialog';
 import { PriorityFilter } from '../PriorityFilter/PriorityFilter';
@@ -69,7 +69,7 @@ export const Board = () => {
   const ignoreClickRef = useRef(false);
   const loadIdRef = useRef(0);
 
-  const loadTasks = useCallback(async () => {
+  const loadTasks = async () => {
     const loadId = ++loadIdRef.current;
 
     try {
@@ -99,14 +99,17 @@ export const Board = () => {
         setIsLoading(false);
       }
     }
-  }, []);
+  };
 
   useEffect(() => {
-    // oxlint-disable-next-line react/set-state-in-effect -- список приходит с API при открытии страницы
-    void loadTasks();
-  }, [loadTasks]);
+    const loadInitialTasks = async () => {
+      await loadTasks();
+    };
 
-  const handleRetry = () => {
+    loadInitialTasks();
+  }, []);
+
+  const handleRetry = async () => {
     setActionError(null);
     setLoadError(null);
 
@@ -114,7 +117,7 @@ export const Board = () => {
       setIsLoading(true);
     }
 
-    void loadTasks();
+    await loadTasks();
   };
 
   const handleCreate = () => {
@@ -228,8 +231,8 @@ export const Board = () => {
     }
   };
 
-  const handleMove = (task: Task, status: Status) => {
-    void moveTask(task, status, false);
+  const handleMove = async (task: Task, status: Status) => {
+    await moveTask(task, status, false);
   };
 
   const releaseClick = () => {
@@ -248,7 +251,7 @@ export const Board = () => {
     releaseClick();
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     setActiveDragId(null);
     releaseClick();
 
@@ -270,7 +273,7 @@ export const Board = () => {
       return;
     }
 
-    void moveTask(task, nextStatus, true);
+    await moveTask(task, nextStatus, true);
   };
 
   const visibleTasks = (tasks ?? []).filter((task) =>

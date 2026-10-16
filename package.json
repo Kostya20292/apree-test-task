@@ -4,10 +4,18 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "turbo": "^2.11.8"
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "turbo": "^2.11.8",
+    "typescript-eslint": "^8.71.2"
   },
   "packageManager": "pnpm@12.4.2"
 }

@@ -1,18 +1,5 @@
 # Клиент
 
-Канбан-доска на Vite, React, TypeScript и MUI.
+Канбан-доска на Vite, React, TypeScript и MUI. Запросы к `/api` проксируются на `http://localhost:3000`.
 
-Пока `VITE_USE_MOCK` не равен `false`, задачи хранятся в `localStorage`. Запросы к `/api` проксируются на `http://localhost:3000`.
-
-## Запуск
-
-Из корня репозитория:
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Приложение откроется на http://localhost:5173.
-
-Чтобы ходить в API, создайте `.env.local` со строкой `VITE_USE_MOCK=false` и перезапустите Vite.
+Запуск приложения, базы и тестов описан в [корневом README](../README.md).

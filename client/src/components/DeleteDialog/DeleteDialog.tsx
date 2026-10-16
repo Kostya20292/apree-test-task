@@ -75,9 +75,7 @@ export const DeleteDialog = ({ open, task, onClose, onExited, onConfirm }: Delet
           type="button"
           color="error"
           variant="contained"
-          onClick={() => {
-            void handleConfirm();
-          }}
+          onClick={handleConfirm}
           disabled={isDeleting}
           aria-busy={isDeleting}
           aria-label={`Удалить задачу «${task.title}»`}

@@ -1,4 +1,4 @@
-import { isPriority, type Priority } from "./types";
+import { isPriority, type Priority } from '../types';
 
 export const TITLE_MAX_LENGTH = 200;
 export const DESCRIPTION_MAX_LENGTH = 5000;
@@ -15,13 +15,11 @@ export type TaskFieldValues = {
   priority: Priority;
 };
 
-export const validateTitle = (
-  title: string,
-): { value: string } | { error: string } => {
+export const validateTitle = (title: string): { value: string } | { error: string } => {
   const value = title.trim();
 
   if (!value) {
-    return { error: "Укажите название" };
+    return { error: 'Укажите название' };
   }
 
   if (value.length > TITLE_MAX_LENGTH) {
@@ -31,13 +29,11 @@ export const validateTitle = (
   return { value };
 };
 
-export const validateDescription = (
-  description: string,
-): { value: string } | { error: string } => {
+export const validateDescription = (description: string): { value: string } | { error: string } => {
   const value = description.trim();
 
   if (!value) {
-    return { error: "Укажите описание" };
+    return { error: 'Укажите описание' };
   }
 
   if (value.length > DESCRIPTION_MAX_LENGTH) {
@@ -57,12 +53,12 @@ export const normalizeTaskFields = (input: {
   const title = validateTitle(input.title);
   const description = validateDescription(input.description);
 
-  if ("error" in title || "error" in description || !isPriority(input.priority)) {
+  if ('error' in title || 'error' in description || !isPriority(input.priority)) {
     return {
       errors: {
-        title: "error" in title ? title.error : undefined,
-        description: "error" in description ? description.error : undefined,
-        priority: isPriority(input.priority) ? undefined : "Выберите приоритет",
+        title: 'error' in title ? title.error : undefined,
+        description: 'error' in description ? description.error : undefined,
+        priority: isPriority(input.priority) ? undefined : 'Выберите приоритет',
       },
     };
   }
