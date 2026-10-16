@@ -183,7 +183,7 @@ HTTP-проверки через Supertest идут в PostgreSQL из Docker. �
 6. `GET` на пустой таблице — 200 и `[]`.
 7. `GET` и `DELETE` неизвестного UUID — 404.
 
-Готово, когда `npm test` в `server/` проходит на поднятой базе, а клиент с `VITE_USE_MOCK=false` ходит в этот API.
+Готово, когда `pnpm test` проходит на поднятой базе, а клиент с `VITE_USE_MOCK=false` ходит в этот API.
 
 ## 5. Сдача
 

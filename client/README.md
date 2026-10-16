@@ -6,9 +6,11 @@
 
 ## Запуск
 
+Из корня репозитория:
+
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Приложение откроется на http://localhost:5173.

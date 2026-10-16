@@ -1,0 +1,13 @@
+{
+  "name": "apree-test-task",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.8"
+  },
+  "packageManager": "pnpm@12.4.2"
+}

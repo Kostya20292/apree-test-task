@@ -1,0 +1,31 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+enum Status {
+  new
+  in_progress
+  done
+}
+
+model Task {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  priority    Priority @default(medium)
+  status      Status   @default(new)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
